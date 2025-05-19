@@ -1,23 +1,45 @@
 import { IoManager } from "./managers/IoManager";
 
+
+export type AllowedSubmissions=0|1|2|3;
+
+const PROBLEM_TIME_SEC=20
+
+
+
+
+
 interface User{
-    name:string,
-    id:string
+    name:string;
+    id:string;
+    points:number
+
+}
+
+interface Submission{
+    problemId:string;
+    //submission:string;
+    userId:string;
+    isCorrect:boolean;
+    optionSelected:AllowedSubmissions
+
+
 }
 
 
+
 interface Problem{
+    id:string;
     title:String;
      description:string;
-     image:string;
-     answer:String;
+     image?:string;
+     startTime:number;
+     answer:AllowedSubmissions;
      options:{
         id:number;
         title:string;
-
-
-
-     }
+     }[]
+     submissions:Submission[]
 }
 
 
@@ -27,7 +49,8 @@ export class Quiz{
     private hasStarted:boolean;
     private problems:Problem[];
     private activeProblem:number;
-    private users:User[]
+    private users:User[];
+    private currentState:"leaderboard"|"question"|"not_started"|"ended"
 
 
     constructor(roomId:string){
@@ -36,7 +59,8 @@ export class Quiz{
         this.hasStarted=false;
         this.problems=[];
         this.activeProblem=0;
-        this.users=[]
+        this.users=[];
+        this.currentState="not_started"
 
     }
 
@@ -44,34 +68,71 @@ export class Quiz{
 
     addProblem(problem:Problem){
         this.problems.push(problem)
+        console.log(this.problems)
 
     }
 
     start(){
         this.hasStarted=true
         const io=IoManager.getIo()
-        io.emit("CHANGE_PROBLEM",{
-            problem: this.problems[0]
-        })
+        
+        this.setActiveProblem(this.problems[0])
+       //this.problems[0].startTime=new Date().getTime()
+
+       console.log(this.problems)
         
 
     }
+
+    setActiveProblem(problem:Problem){
+        problem.startTime=new Date().getTime()
+        problem.submissions=[]
+
+          IoManager.getIo().emit("CHANGE_PROBLEM",{
+            problem: this.problems[0]
+        })
+
+        //TODO:clear this if function moves ahead
+        setTimeout(()=>{
+
+            this.sendLeaderBoard();
+
+        },PROBLEM_TIME_SEC*1000)
+
+
+
+
+    }
+
+
+    sendLeaderBoard(){
+
+        const leaderBoard=this.getLeaderBoard();
+        IoManager.getIo().to(this.roomId).emit("leaderboard",{
+            leaderBoard
+        })
+         
+    }
+
+
+
+
 
     next(){
         this.activeProblem++;
 
         const problem= this.problems[this.activeProblem];
-        const io=IoManager.getIo()
+        
 
         if(problem){
-            io.emit("CHANGE_PROBLEM",{
-            problem: this.problems[0]
-        })
+            
+            this.setActiveProblem(problem)
 
         }else{
-            io.emit("QUIZ_ENDED",{
-            problem: this.problems[0]
-        })
+            //send final results here
+        //     IoManager.getIo().emit("QUIZ_ENDED",{
+        //     problem: this.problems[0]
+        // })
         }
     }
 
@@ -97,7 +158,8 @@ export class Quiz{
 
         this.users.push({
             id,
-            name
+            name,
+            points:0
 
         })
 
@@ -105,7 +167,76 @@ export class Quiz{
     }
 
 
-    sumbit(roomId:string,problemId:string,submission:0|1|2|3){
+    submit(userId:string,roomId:string,problemId:string,submission:AllowedSubmissions){
+
+        const problem = this.problems.find(x=>x.id==problemId)
+
+        const user= this.users.find(x=>x.id===userId)
+
+        if(!problem || !user){
+            return;
+        }
+
+            const extistingSubmission= problem.submissions.find(x=>x.userId==userId)
+            if(extistingSubmission){
+                return;
+            }
+           problem.submissions.push({
+            problemId,
+            userId,
+            isCorrect:problem.answer===submission,
+            optionSelected:submission
+           });
+
+
+           user.points+= 1000- 500*(new Date().getTime()-problem.startTime)/PROBLEM_TIME_SEC
+
+        
+        }
+
+
+        getLeaderBoard(){
+
+        return this.users.sort((a,b)=>a.points<b.points?1:-1).splice(0,20)
+
+    }
+
+
+    getCurrentState(){
+
+        if(this.currentState==="not_started"){
+
+            return {
+                type:"not_starated"
+            }
+
+        }
+
+        if(this.currentState==="ended"){
+            return{
+                type:"ended",
+                leaderboard:this.getLeaderBoard
+            }
+        }
+
+        if(this.currentState==="leaderboard"){
+            return{
+                type:"leaderboard",
+                leaderboard:this.getLeaderBoard
+            }
+
+        }
+
+        if(this.currentState==="question"){
+            const problem= this.problems[this.activeProblem];
+            return{
+                type:"question",
+                problem
+            }
+        }
+
+    }
         
     }
-}
+
+    

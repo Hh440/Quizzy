@@ -13,7 +13,7 @@ export class IoManager{
 
         if(!this.io){
            
-            const io= new Server(server)
+            this.io= new Server(server)
         }
         return this.io
     }

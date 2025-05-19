@@ -2,6 +2,9 @@ import { Socket } from "socket.io";
 import { QuizManager } from "./QuizManager";
 
 
+const ADMIN_PASSWORD="ADMIN_PASSWORD"
+
+
 export class UserManager{
     private users:{
         roomId:string,
@@ -33,10 +36,34 @@ export class UserManager{
 
     private createHandlers(roomId:string,socket:Socket){
 
-        socket.on("submission",(data)=>{
+        socket.on("join",(data)=>{
             const userId=  this.quizManager.addUser(data.roomId,data.name)
             socket.emit("userId",{
-                userId 
+                userId,
+                state:this.quizManager.getCurrentState(roomId)
+            })
+        })
+
+        socket.on("join_admin",(data)=>{
+            const userId=  this.quizManager.addUser(data.roomId,data.name)
+            if(data.password!==ADMIN_PASSWORD){
+                return
+            }
+            socket.emit("adminInit",{
+                userId,
+                state:this.quizManager.getCurrentState(roomId)
+            });
+
+            socket.on("createProblem",data=>{
+               
+                this.quizManager.addProblem(data.roomId,data.problem)
+
+            })
+
+            socket.on("next",data=>{
+                const roomId=data.roomId;
+                this.quizManager.next(data.roomId)
+
             })
         })
 
@@ -44,12 +71,13 @@ export class UserManager{
             const userId= data.userId
             const problemId= data.problemId;
             const submission= data.submission
+            const roomId=data.submission
             if(submission!-0|| submission!=1 || submission!=2||submission!=3){
                 console.error("Issue while getting input"+submission)
                 return
             }
 
-            this.quizManager.submit()
+            this.quizManager.submit(userId,roomId,problemId,submission)
         })
 
     }
