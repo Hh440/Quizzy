@@ -17,14 +17,15 @@ export const Admin= ()=>{
 
     useEffect(()=>{
 
-        const socket=io("https://localhost:3000") 
+        const socket=io("http://localhost:3000") 
         setSocket(socket)
 
 
 
    // client-side
     socket.on("connect", () => {
-   console.log(socket.id); // x8WIv7-mJelg7on_ALbx
+        
+   console.log(socket.id); 
 
    socket.emit("joinAdmin",{
        password:"ADMIN_PASSWORD"
@@ -48,7 +49,9 @@ export const Admin= ()=>{
             <br />
 
             <button onClick={()=>{
-                socket.emit("createQuiz")
+                socket.emit("createQuiz",{
+                    roomId
+                })
                 setQuizId(roomId)
                 
                 
@@ -58,15 +61,16 @@ export const Admin= ()=>{
 
    }
 
-   return
+   return(
 
    <div>
 
-        <CreateProblem socket={socket} roomId={roomId}/>
-        <QuizControls/>
+        <CreateProblem socket={socket} roomId={quizId}/>
+        <QuizControls socket={socket} roomId={roomId}/>
 
 
    </div>
+   )
    
    
     

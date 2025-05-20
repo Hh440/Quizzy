@@ -62,6 +62,21 @@ export class Quiz{
         this.users=[];
         this.currentState="not_started"
 
+        console.log("room created")
+
+        setInterval(()=>{
+            this.debug
+        },1000)
+
+    }
+
+    debug(){
+        console.log("----debug-----")
+        console.log(this.roomId)
+        console.log(JSON.stringify(this.problems))
+        console.log(this.users)
+        console.log(this.currentState )
+
     }
 
 
@@ -85,6 +100,9 @@ export class Quiz{
     }
 
     setActiveProblem(problem:Problem){
+
+        console.log("Set active problem")
+        this.currentState="question"
         problem.startTime=new Date().getTime()
         problem.submissions=[]
 
@@ -106,6 +124,10 @@ export class Quiz{
 
 
     sendLeaderBoard(){
+
+        console.log("send leaderboard")
+
+        this.currentState="leaderboard"
 
         const leaderBoard=this.getLeaderBoard();
         IoManager.getIo().to(this.roomId).emit("leaderboard",{

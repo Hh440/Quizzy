@@ -5,11 +5,14 @@ export const QuizControls= ({socket,roomId}:{socket:Socket,roomId:string})=>{
     return(
         <div>
             QuizControls
-            <button onClick={()=>{\
+            <button onClick={()=>{
 
-            socket.emit
+            socket.emit("next",{
+                roomId,
 
-            }}></button>
+            })
+
+            }}>Next Problem</button>
 
         </div>
     )

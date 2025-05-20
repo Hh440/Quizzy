@@ -1,5 +1,6 @@
 
 import { IoManager } from "./managers/IoManager"
+import { UserManager } from "./managers/UserManager"
 
 
 
@@ -7,17 +8,12 @@ import { IoManager } from "./managers/IoManager"
 const io= IoManager.getIo()
 
 
-io.on('connection',(client)=>{
-    client.on('event',data => {
-        const type = data.type;
-        
-
-    })
+const userManager=new UserManager()
 
 
-    client.on('disconnect',()=>{
-
-    })
+io.on('connection',(socket)=>{
+    userManager.addUser(socket)
+    
 })
 
 
