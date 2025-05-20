@@ -88,4 +88,14 @@ export class QuizManager{
              return quiz.getCurrentState();
 
     }
+
+    addQuiz(roomId:string){
+        if(this.getQuiz(roomId)){
+            return;
+
+        }
+        const quiz= new Quiz(roomId)
+        this.quizes.push(quiz)
+
+    }
 }

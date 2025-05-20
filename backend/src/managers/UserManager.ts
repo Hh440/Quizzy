@@ -44,15 +44,19 @@ export class UserManager{
             })
         })
 
-        socket.on("join_admin",(data)=>{
-            const userId=  this.quizManager.addUser(data.roomId,data.name)
+        socket.on("joinAdmin",(data)=>{
+            //const userId=  this.quizManager.addUser(data.roomId,data.name)
             if(data.password!==ADMIN_PASSWORD){
                 return
             }
-            socket.emit("adminInit",{
-                userId,
-                state:this.quizManager.getCurrentState(roomId)
-            });
+            // socket.emit("adminInit",{
+            //     userId,
+            //     state:this.quizManager.getCurrentState(roomId)
+            // });
+
+            socket.on("createQuiz",data=>{
+                this.quizManager.addProblem(data.roomId,data.problem)
+            })
 
             socket.on("createProblem",data=>{
                
