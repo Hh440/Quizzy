@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import io, { Socket } from "socket.io-client"
 import { CurrentQuestion } from "./CurrentQuestion"
-import { LeaderBoard } from "./LeaderBoard"
+import { LeaderBoard } from "./leaderboard/LeaderBoard"
 
 
 
@@ -55,7 +55,7 @@ export const UserLoggedin= ({name}:{name:any})=>{
         })
 
         socket.on("init",({userId,state})=>{
-            alert("helelo")
+            
             setUserId(userId)
 
             if(state.leaderboard){
@@ -71,6 +71,17 @@ export const UserLoggedin= ({name}:{name:any})=>{
 
         })
 
+        socket.on("leaderboard",(data)=>{
+            
+            setCurrentState("leaderboard")
+            setLeaderBoard(data.leaderboard)
+        })
+
+        socket.on("problem",(data)=>{
+            setCurrentState("question")
+           setCurrentQuestion(data.problem)
+        })
+
     },[])
 
     if(currentState==="not_Started"){
@@ -83,11 +94,18 @@ export const UserLoggedin= ({name}:{name:any})=>{
         return <CurrentQuestion question={currentQuestion}/>
     }
 
-    if(currentQuestion==="leaderboard"){
-        return <LeaderBoard leaderboard={leaderboard}/>
+    if(currentState==="leaderboard"){
+        return <LeaderBoard leaderboard={leaderboard.map((x:any)=>({
+            points:x.points,
+            username:x.name,
+            image:x.image
+
+
+        }))}/>
     }
     return <div>
         <br/>
         Quiz has ended
+        {currentState}
     </div>
 }

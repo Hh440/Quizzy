@@ -33,10 +33,12 @@ export class UserManager{
 
         socket.on("join",(data)=>{
             const userId=  this.quizManager.addUser(data.roomId,data.name)
-            socket.emit("userId",{
+            socket.emit("init",{
                 userId,
                 state:this.quizManager.getCurrentState(data.roomId)
             })
+
+            socket.join(data.roomId)
         })
 
         socket.on("joinAdmin",(data)=>{
@@ -64,7 +66,7 @@ export class UserManager{
             })
 
             socket.on("next",data=>{
-                const roomId=data.roomId;
+               // const roomId=data.roomId;
                 this.quizManager.next(data.roomId)
 
             })

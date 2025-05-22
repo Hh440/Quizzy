@@ -1,10 +1,10 @@
 
 
-export const LeaderBoard=({leaderboard}:{leaderboard:any})=>{
-    return(
-        <div>
-            This is the leaderboard
-            {JSON.stringify(leaderboard)}
-        </div>
-    )
-}
+// export const LeaderBoard=({leaderboard}:{leaderboard:any})=>{
+//     return(
+//         <div>
+            
+//             {JSON.stringify(leaderboard)}
+//         </div>
+//     )
+// }

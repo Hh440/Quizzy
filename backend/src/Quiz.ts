@@ -3,7 +3,7 @@ import { IoManager } from "./managers/IoManager";
 
 export type AllowedSubmissions=0|1|2|3;
 
-const PROBLEM_TIME_SEC=20
+const PROBLEM_TIME_SEC=10
 
 
 
@@ -65,7 +65,7 @@ export class Quiz{
         console.log("room created")
 
         setInterval(()=>{
-            this.debug
+            this.debug();
         },1000)
 
     }
@@ -76,6 +76,7 @@ export class Quiz{
         console.log(JSON.stringify(this.problems))
         console.log(this.users)
         console.log(this.currentState )
+        console.log(this.activeProblem)
 
     }
 
@@ -106,8 +107,8 @@ export class Quiz{
         problem.startTime=new Date().getTime()
         problem.submissions=[]
 
-          IoManager.getIo().emit("CHANGE_PROBLEM",{
-            problem: this.problems[0]
+          IoManager.getIo().to(this.roomId).emit("problem",{
+            problem
         })
 
         //TODO:clear this if function moves ahead
@@ -151,6 +152,7 @@ export class Quiz{
             this.setActiveProblem(problem)
 
         }else{
+            this.activeProblem--;
             //send final results here
         //     IoManager.getIo().emit("QUIZ_ENDED",{
         //     problem: this.problems[0]
@@ -190,17 +192,21 @@ export class Quiz{
 
 
     submit(userId:string,roomId:string,problemId:string,submission:AllowedSubmissions){
+         console.log("userId");
+        console.log(userId);
 
         const problem = this.problems.find(x=>x.id==problemId)
 
         const user= this.users.find(x=>x.id===userId)
 
         if(!problem || !user){
+             console.log("problem or user not found")
             return;
         }
 
             const extistingSubmission= problem.submissions.find(x=>x.userId==userId)
             if(extistingSubmission){
+                console.log("existing submissions")
                 return;
             }
            problem.submissions.push({
@@ -219,7 +225,7 @@ export class Quiz{
 
         getLeaderBoard(){
 
-        return this.users.sort((a,b)=>a.points<b.points?1:-1).splice(0,20)
+        return this.users.sort((a,b)=>a.points<b.points?1:-1).slice(0,20)
 
     }
 
@@ -237,14 +243,14 @@ export class Quiz{
         if(this.currentState==="ended"){
             return{
                 type:"ended",
-                leaderboard:this.getLeaderBoard
+                leaderboard:this.getLeaderBoard()
             }
         }
 
         if(this.currentState==="leaderboard"){
             return{
                 type:"leaderboard",
-                leaderboard:this.getLeaderBoard
+                leaderboard:this.getLeaderBoard()
             }
 
         }
