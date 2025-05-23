@@ -1,13 +1,13 @@
 
 import Card from "./Card";
 
-export function LeaderBoard({leaderboardData}: {
+export const LeaderBoard=({leaderboardData}: {
     leaderboardData: {
         points: number;
         username: string,
         profilePicture: string
-    }
-}) {
+    }[]
+}) => {
 
     return (
         <div className="bg-opacity-20 bg-white backdrop-blur-5 border border-opacity-30 border-solid border-white p-6 rounded-lg shadow-md">

@@ -3,7 +3,7 @@ import { IoManager } from "./managers/IoManager";
 
 export type AllowedSubmissions=0|1|2|3;
 
-const PROBLEM_TIME_SEC=10
+const PROBLEM_TIME_SEC=30
 
 
 
@@ -217,7 +217,7 @@ export class Quiz{
            });
 
 
-           user.points+= 1000- 500*(new Date().getTime()-problem.startTime)/PROBLEM_TIME_SEC
+           user.points+= (1000- (500*(new Date().getTime()-problem.startTime)/PROBLEM_TIME_SEC*1000))
 
         
         }
