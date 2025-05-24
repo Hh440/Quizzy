@@ -20,31 +20,33 @@ export const CreateProblem = ({socket,roomId}:{socket:Socket;roomId:string})=>{
         title:""
     }])
     return(
-        <div>
+        <div >
+            <div className="flex flex-col items-center justify-center py-30 space-y-2">
 
-            <h2>Create Problem</h2>
+                <h2 className="text-2xl font-bold">Create Problem</h2>
         
 
             <input type="text" placeholder="title" onChange={(e)=>{
                 setTitle(e.target.value)
-            }}/>
+                
+            }} className="w-64 h-10 px-3  text-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-black"/>
 
             <br/>
 
             <input type="text" placeholder="Description"onChange={(e)=>{
                 setDescription(e.target.value)
-            }}/>
+            }}  className="w-64 h-10 px-3  text-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-black"/>
 
             <br/>
 
-            {[0,1,2,3].map(optionId=> <div>
+            {[0,1,2,3].map(optionId=> <div className="space-x-5 space-y-5">
 
                 <input type="radio" checked={optionId===answer} onChange={()=>{
                     setAnswer(optionId)
                 }}/>
 
-                option {optionId}
-                <input type="text" onChange={(e)=>{
+                
+                <input type="text" placeholder={`option ${optionId}`} className="w-64 h-10 px-3  text-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-black" onChange={(e)=>{
                 setOptions(options=>options.map(x=>{
                     if(x.id===optionId){
                         return{
@@ -74,10 +76,14 @@ export const CreateProblem = ({socket,roomId}:{socket:Socket;roomId:string})=>{
                 
                 
                 
-                }}> Add Problem</button>
+                }} className="text-white w-30  h-12 bg-emerald-700 rounded-md "> Add Problem</button>
 
 
               
+
+            </div>
+
+            
 
 
            
