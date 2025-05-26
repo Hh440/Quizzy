@@ -11,7 +11,7 @@ import {motion} from "framer-motion"
 export function Quiz({quizData, socket, userId, problemId, roomId}: {
     quizData: {
         title: string;
-        options: string[];
+         options: { title: string }[]
     },
     socket: any;
     roomId: string;
