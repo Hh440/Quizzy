@@ -42,7 +42,7 @@ export const Admin= ()=>{
    if(!quizId){
     return (
 
-        <div className=" min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-[#4379F2]  to-[#16325B] ">
+        <div className=" min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-black  to-[#16325B] ">
             <div className="flex flex-col items-center space-y-1 h-1/2 ">
 
                 <input placeholder="Enter Room" type="text" onChange={(e)=>{
@@ -73,7 +73,7 @@ export const Admin= ()=>{
 
    return(
 
-   <div  className=" min-h-screen bg-gradient-to-r from-[#4379F2]  to-[#16325B]">
+   <div  className=" min-h-screen bg-gradient-to-r from-black  to-[#16325B]">
 
     <div className="flex flex-col justify-center items-center">
 

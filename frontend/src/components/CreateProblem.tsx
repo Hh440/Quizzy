@@ -23,7 +23,7 @@ export const CreateProblem = ({socket,roomId}:{socket:Socket;roomId:string})=>{
         <div >
             <div className="flex flex-col items-center justify-center py-30 space-y-2">
 
-                <h2 className="text-2xl font-bold">Create Problem</h2>
+                <h2 className="text-4xl font-bold text-white pb-6">Create Problem</h2>
         
 
             <input type="text" placeholder="title" onChange={(e)=>{

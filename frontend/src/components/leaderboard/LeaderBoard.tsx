@@ -8,10 +8,12 @@ export const LeaderBoard=({leaderboardData}: {
         profilePicture: string
     }[]
 }) => {
+    console.log(leaderboardData)
 
     return (
-        <div className="bg-opacity-20 bg-white backdrop-blur-5 border border-opacity-30 border-solid border-white p-6 rounded-lg shadow-md">
-            <h1 className="text-2xl text-center my-4 text-black">
+        <div className="bg-gradient-to-r from-black  to-[#16325B]">
+        <div className="bg-opacity-20 backdrop-blur-5 border border-opacity-30 border-solid border-white p-6 rounded-lg shadow-md">
+            <h1 className="text-2xl text-center text-white my-4">
                 Leaderboard Results 🚀
             </h1>
             <div className="">
@@ -25,6 +27,7 @@ export const LeaderBoard=({leaderboardData}: {
                             />
                         </div>
                     ))}
+            </div>
             </div>
         </div>
     );

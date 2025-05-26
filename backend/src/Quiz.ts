@@ -3,7 +3,7 @@ import { IoManager } from "./managers/IoManager";
 
 export type AllowedSubmissions=0|1|2|3;
 
-const PROBLEM_TIME_SEC=30
+const PROBLEM_TIME_S=30
 
 
 
@@ -116,7 +116,7 @@ export class Quiz{
 
             this.sendLeaderBoard();
 
-        },PROBLEM_TIME_SEC*1000)
+        },PROBLEM_TIME_S*1000)
 
 
 
@@ -132,7 +132,7 @@ export class Quiz{
 
         const leaderBoard=this.getLeaderBoard();
         IoManager.getIo().to(this.roomId).emit("leaderboard",{
-            leaderBoard
+            leaderboard:leaderBoard
         })
          
     }
@@ -195,16 +195,16 @@ export class Quiz{
          console.log("userId");
         console.log(userId);
 
-        const problem = this.problems.find(x=>x.id==problemId)
+        const problem = this.problems.find(x=>x.id == problemId)
 
-        const user= this.users.find(x=>x.id===userId)
+        const user= this.users.find(x=>x.id === userId)
 
         if(!problem || !user){
              console.log("problem or user not found")
             return;
         }
 
-            const extistingSubmission= problem.submissions.find(x=>x.userId==userId)
+            const extistingSubmission= problem.submissions.find(x => x.userId === userId)
             if(extistingSubmission){
                 console.log("existing submissions")
                 return;
@@ -212,12 +212,12 @@ export class Quiz{
            problem.submissions.push({
             problemId,
             userId,
-            isCorrect:problem.answer===submission,
+            isCorrect:problem.answer === submission,
             optionSelected:submission
            });
 
 
-           user.points+= (1000- (500*(new Date().getTime()-problem.startTime)/PROBLEM_TIME_SEC*1000))
+            user.points += (1000 - (500 * (new Date().getTime() - problem.startTime) / (PROBLEM_TIME_S * 1000)));
 
         
         }

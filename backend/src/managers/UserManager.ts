@@ -76,7 +76,7 @@ export class UserManager{
             const userId= data.userId
             const problemId= data.problemId;
             const submission= data.submission
-            const roomId=data.submission
+            const roomId=data.roomId
             if(submission!=0 && submission!=1 && submission!=2 && submission!=3){
                 console.error("Issue while getting input"+submission)
                 return

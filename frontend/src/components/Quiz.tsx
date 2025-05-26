@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import {motion} from "framer-motion"
 
 /**
  Simple View with title and answers - $25
@@ -21,7 +22,7 @@ export function Quiz({quizData, socket, userId, problemId, roomId}: {
   const [submission , setSubmission] = useState(0);
 
   return (
-    <div className="h-screen">
+    <div className="h-screen bg-gradient-to-r from-black  to-[#16325B]">
       <div className="flex w-full justify-center">
         <div className="">
             <SingleQuiz
@@ -31,9 +32,12 @@ export function Quiz({quizData, socket, userId, problemId, roomId}: {
                 setSelected={setSubmission}
             />
           <div className="flex justify-between w-full mt-4 text-white">
-            <button
-              className="py-3 px-10 bg-indigo-600 rounded-lg mx-8"
+            <motion.button
+              className="py-3 px-10 bg-gray-700 rounded-lg mx-8"
               disabled={submitted}
+              whileTap={{scale:0.5}}
+            
+
               onClick={() => {
                 setSubmitted(true);
                 socket.emit("submit", {
@@ -45,7 +49,7 @@ export function Quiz({quizData, socket, userId, problemId, roomId}: {
               }}
             >
               Submit
-            </button>
+            </motion.button>
           </div>
 
         </div>
@@ -68,17 +72,17 @@ function SingleQuiz({
 }: SingleQuizProps) {
   return (
     <article>
-      <h4 className="mt-10 text-xl">
+      <h4 className="mt-10 text-3xl text-white">
         Question 
       </h4>
-      <div className="mt-4 text-2x">{title}</div>
+      <div className="mt-4 text-2xl text-white">{title}</div>
       {imageURL && <img src={imageURL} alt="" />}
       {choices.length &&
         choices.map((choice, index) => {
           return (
             <div
               key={index}
-              className="flex items-center w-full py-4 pl-5 m-2 ml-0 space-x-2 border-2 cursor-pointer border-white/10 rounded-xl bg-white/5"
+              className="flex text-white items-center w-full py-4 pl-5 m-2 ml-0 space-x-2 border-2 cursor-pointer border-white/10 rounded-xl bg-white/5"
             >
               <input
                 type="radio"
