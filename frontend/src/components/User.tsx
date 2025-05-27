@@ -144,7 +144,7 @@ export const UserLoggedin= ({name,code}:{name:any,code:any})=>{
     />
 );
     }
-    return <div>
+    return <div className="flex justify-center items-center bg-gradient-to-r from-black  to-[#16325B]">
         <br/>
         Quiz has ended
         {currentState}

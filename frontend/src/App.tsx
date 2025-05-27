@@ -3,6 +3,7 @@ import './App.css'
 import { User } from './components/User'
 import { Admin } from './components/Admin'
 import { Dashboard } from './components/Dashboard'
+import {Test} from "./components/Test"
 
 function App() {
   
@@ -14,6 +15,7 @@ function App() {
           <Route path='/' element={<Dashboard/>}/>
           <Route path='/admin' element={<Admin/>}/>
           <Route path='/user' element={<User/>}/>
+          <Route path='/test' element={<Test/>}/>
       </Routes>
 
 
