@@ -60,6 +60,7 @@ export class UserManager{
             socket.on("createProblem",data=>{
 
                 //console.log("whats the problem")
+                console.log(data.problem)
                
                 this.quizManager.addProblem(data.roomId,data.problem)
 

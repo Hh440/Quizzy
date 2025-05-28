@@ -29,6 +29,7 @@ export class QuizManager{
         title: string;
         description: string;
         image?: string;
+        time:number;
         options: {
             id: number;
             title: string;

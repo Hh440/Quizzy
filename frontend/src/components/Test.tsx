@@ -1,6 +1,4 @@
 
-import { Clock } from "./Clock"
-
 
 export const Test= ()=>{
 
@@ -11,7 +9,7 @@ export const Test= ()=>{
         <div className="bg-gradient-to-r from-black  to-[#16325B]">
             <div className="flex justify-center items-center ">
 
-                <Clock/>
+                {/* <Clock/> */}
 
             </div>
 

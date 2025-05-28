@@ -3,6 +3,7 @@ import { io } from "socket.io-client";
 import { CreateProblem } from "./CreateProblem";
 import { QuizControls } from "./QuizControls";
 import {motion} from "framer-motion";
+import { Plus, Timer } from 'lucide-react';
 
 
  //const socket=io("https://localhost:3000")   
@@ -10,6 +11,9 @@ import {motion} from "framer-motion";
 export const Admin= ()=>{
 
     const[socket,setSocket]= useState<null|any>(null)
+
+     //const [roomName, setRoomName] = useState('');
+    const [timeLimit, setTimeLimit] = useState('30');
 
     const [quizId,setQuizId]= useState("")
 
@@ -39,34 +43,85 @@ export const Admin= ()=>{
 
     },[])
 
+
+    
+
    if(!quizId){
+
+    console.log(timeLimit)
     return (
 
-        <div className=" min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-black  to-[#16325B] ">
-            <div className="flex flex-col items-center space-y-1 h-1/2 ">
-
-                <input placeholder="Enter Room" type="text" onChange={(e)=>{
-                setRoomId(e.target.value)
-            }}  className="w-64 h-10 px-3  text-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-400"/>
-
-            <br />
-
-            <motion.button
-
-            whileTap={{scale:0.85}}
+        <div className="min-h-screen bg-gradient-to-r from-black to-[#16325B] text-white">
+      <div className="container mx-auto px-4 py-8">
+        <div className="max-w-4xl mx-auto">
+          <h1 className="text-3xl font-bold mb-8">Quiz Admin Dashboard</h1>
+          
+          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-8 mb-8">
+            <h2 className="text-xl font-semibold mb-6 flex items-center">
+              <Plus className="mr-2" size={24} />
+              Create New Quiz Room
+            </h2>
+            
+            <form  className="space-y-6">
+              <div>
+                <label className="block text-sm font-medium mb-2">Room Name</label>
+                <input
+                  type="text"
+                  value={roomId}
+                  onChange={(e) => setRoomId(e.target.value)}
+                  className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                  placeholder="Enter room name"
+                  required
+                />
+              </div>
+              
+              
+              
+              <div className="flex items-center pt-4">
+                <motion.button
+                  type="submit"
+                  className="flex items-center justify-center bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg font-medium transition-colors"
+                   whileTap={{scale:0.85}}
             
             onClick={()=>{
+
+                
                 socket.emit("createQuiz",{
                     roomId
+                   
                 })
                 setQuizId(roomId)
                 
                 
-                }}  className="mt-4 h-12 w-64 py-2 bg-[#686D76] text-white font-semibold rounded-md hover:bg-cyan-700 transition"> Create Room</motion.button>
-
-            </div>
-            
+                }}
+                >
+                  Create Room
+                  <Plus className="ml-2" size={20} />
+                </motion.button>
+              </div>
+            </form>
+          </div>
+          
+          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-8">
+            <h2 className="text-xl font-semibold mb-6">Quick Tips</h2>
+            <ul className="space-y-3 text-gray-300">
+              <li className="flex items-start">
+                <span className="text-blue-400 mr-2">•</span>
+                Room Id can be mixture of number and alphabets
+              </li>
+              <li className="flex items-start">
+                <span className="text-blue-400 mr-2">•</span>
+                Consider time zones when setting time limits
+              </li>
+              {/* <li className="flex items-start">
+                <span className="text-blue-400 mr-2">•</span>
+                You can modify room settings after creation
+              </li> */}
+            </ul>
+          </div>
         </div>
+      </div>
+    </div>
     )
 
    }
@@ -75,12 +130,11 @@ export const Admin= ()=>{
 
    <div  className=" min-h-screen bg-gradient-to-r from-black  to-[#16325B]">
 
-    <div className="flex flex-col justify-center items-center">
+   <div className="flex flex-col lg:flex-row gap-8 items-start justify-center px-6 py-10">
+  <CreateProblem socket={socket} roomId={roomId} />
+  <QuizControls socket={socket} roomId={roomId} />
+</div>
 
-         <CreateProblem socket={socket} roomId={quizId}/>
-        <QuizControls socket={socket} roomId={roomId}/>
-
-    </div>
 
        
 

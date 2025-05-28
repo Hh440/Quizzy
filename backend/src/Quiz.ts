@@ -49,6 +49,7 @@ export class Quiz{
     private hasStarted:boolean;
     private problems:Problem[];
     private activeProblem:number;
+    
     private users:User[];
     private currentState:"leaderboard"|"question"|"not_started"|"ended"
 
@@ -56,6 +57,7 @@ export class Quiz{
     constructor(roomId:string){
 
         this.roomId=roomId;
+       
         this.hasStarted=false;
         this.problems=[];
         this.activeProblem=0;
