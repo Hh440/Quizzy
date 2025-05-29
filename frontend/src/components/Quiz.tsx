@@ -8,7 +8,6 @@ export function Quiz({
   userId,
   problemId,
   roomId,
-  time,
 }: {
   quizData: {
     title: string;

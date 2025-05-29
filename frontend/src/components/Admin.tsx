@@ -3,7 +3,7 @@ import { io } from "socket.io-client";
 import { CreateProblem } from "./CreateProblem";
 import { QuizControls } from "./QuizControls";
 import {motion} from "framer-motion";
-import { Plus, Timer } from 'lucide-react';
+import { Plus } from 'lucide-react';
 
 
  //const socket=io("https://localhost:3000")   
@@ -12,8 +12,7 @@ export const Admin= ()=>{
 
     const[socket,setSocket]= useState<null|any>(null)
 
-     //const [roomName, setRoomName] = useState('');
-    const [timeLimit, setTimeLimit] = useState('30');
+    
 
     const [quizId,setQuizId]= useState("")
 
@@ -48,7 +47,7 @@ export const Admin= ()=>{
 
    if(!quizId){
 
-    console.log(timeLimit)
+    
     return (
 
         <div className="min-h-screen bg-gradient-to-r from-black to-[#16325B] text-white">
