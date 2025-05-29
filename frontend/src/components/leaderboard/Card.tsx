@@ -1,34 +1,36 @@
 import { FaRegUser } from "react-icons/fa";
 
-type props = {
+type Props = {
     sno: number;
     name: string;
     points: number;
     image?: string;
 };
 
-function Card({ sno, name, points, image }: props) {
+function Card({ sno, name, points, image }: Props) {
     return (
-        <div className="flex justify-between items-center w-96 bg-white mb-4 rounded-md text-black px-4">
-            <div className="flex gap-4 my-5 w-5/12">
-                <p>{sno}.</p>
-                <h3>{name}</h3>
-            </div>
-            <div>
-                <p>{points}</p>
-            </div>
-            <div>
-                <div className="bg-white p-1 rounded-full">
+        <div className="flex items-center justify-between bg-white/80 text-black rounded-xl px-5 py-4 shadow-md hover:scale-[1.01] transition-transform duration-200">
+            <div className="flex items-center gap-4 w-1/2">
+                <div className="bg-white p-1 rounded-full shadow-inner">
                     {image ? (
                         <img
                             src={image}
-                            alt={image}
-                            className="w-8 rounded-full"
+                            alt="profile"
+                            className="w-10 h-10 rounded-full object-cover"
                         />
                     ) : (
                         <FaRegUser className="text-black text-3xl" />
                     )}
                 </div>
+                <div>
+                    <p className="font-semibold text-lg">{name}</p>
+                    <p className="text-sm text-gray-600">#{sno}</p>
+                </div>
+            </div>
+
+            <div className="text-right">
+                <p className="text-xl font-bold">{points}</p>
+                <p className="text-sm text-gray-500">Points</p>
             </div>
         </div>
     );

@@ -1,34 +1,30 @@
-
 import Card from "./Card";
 
-export const LeaderBoard=({leaderboardData}: {
+export const LeaderBoard = ({ leaderboardData }: {
     leaderboardData: {
         points: number;
-        username: string,
-        profilePicture: string
+        username: string;
+        profilePicture: string;
     }[]
 }) => {
-    console.log(leaderboardData)
-
     return (
-        <div className="bg-gradient-to-r from-black  to-[#16325B]">
-        <div className="bg-opacity-20 backdrop-blur-5 border border-opacity-30 border-solid border-white p-6 rounded-lg shadow-md">
-            <h1 className="text-2xl text-center text-white my-4">
-                Leaderboard Results 🚀
-            </h1>
-            <div className="">
+        <div className="bg-gradient-to-br from-black via-[#0d1b2a] to-[#16325B] min-h-screen py-10 px-4">
+            <div className="bg-white/10 backdrop-blur-lg border border-white/20 max-w-3xl mx-auto p-8 rounded-2xl shadow-xl">
+                <h1 className="text-3xl font-bold text-center text-white mb-8 tracking-wide">
+                    🏆 Leaderboard Results
+                </h1>
+                <div className="space-y-4">
                     {leaderboardData.map((el, index) => (
-                        <div className=" flex justify-center">
-                            <Card
-                                sno={index + 1}
-                                name={el.username}
-                                points={el.points}
-                                image={el.profilePicture}
-                            />
-                        </div>
+                        <Card
+                            key={index}
+                            sno={index + 1}
+                            name={el.username}
+                            points={el.points}
+                            image={el.profilePicture}
+                        />
                     ))}
-            </div>
+                </div>
             </div>
         </div>
     );
-}
+};
