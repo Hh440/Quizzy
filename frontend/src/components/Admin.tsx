@@ -21,7 +21,7 @@ export const Admin= ()=>{
 
     useEffect(()=>{
 
-        const socket=io("http://localhost:3000") 
+        const socket=io("https://quizzy-vxmc.onrender.com") 
         setSocket(socket)
 
 
