@@ -166,7 +166,7 @@ export const UserLoggedin= ({name,code}:{name:any,code:any})=>{
 
 
     useEffect(()=>{
-        const socket= io("http://localhost:3000")
+        const socket= io("https://quizzy-vxmc.onrender.com")
         setSocket(socket)
 
         socket.on("connect",()=>{
